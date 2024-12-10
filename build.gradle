@@ -26,6 +26,8 @@ dependencies {
     implementation 'org.springframework.security:spring-security-saml2-service-provider' /////////
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.security:spring-security-saml2-service-provider'
+
 }
 
 tasks.named('test') {
