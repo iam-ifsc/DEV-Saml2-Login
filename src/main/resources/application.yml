@@ -15,7 +15,7 @@ spring:
               response-url: "{baseUrl}/logout/saml2/slo"
           auth0:
             assertingparty:
-              metadata-uri: https://dev-zk7cudsl1ernnsc2.us.auth0.com/u/login?state=https://dev-zk7cudsl1ernnsc2.us.auth0.com/samlp/metadata/AKHuOSsgG5MAVJedC3lV8MWQiIarFJ4d
+              metadata-uri: https://dev-zk7cudsl1ernnsc2.us.auth0.com/samlp/metadata/AKHuOSsgG5MAVJedC3lV8MWQiIarFJ4d
             signing:
               credentials:
                 - private-key-location: classpath:local.key
