@@ -9,6 +9,16 @@
             "projectName": "DEV-Saml2-Login",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoApplication<DEV-saml2-login>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.demo.DemoApplication",
+            "projectName": "DEV-saml2-login",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
