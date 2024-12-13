@@ -1,8 +1,13 @@
-# Saml Login - Estudo ainda não finalizado 🌱
+# Saml Login 🌱
 
-- Este repositório contém um exemplo de aplicação Spring Boot 3.0.6 que utiliza autenticação baseada em SAML 2.0. O projeto suporta integração com Okta e Auth0 como provedores de identidade (IdPs). Além disso, o exemplo implementa logout, gerenciamento de grupos e atributos de usuários.
+Este repositório contém uma autenticação utilizando o SAML com base no blog [okta developer](https://developer.okta.com/blog/2022/08/05/spring-boot-saml). O projeto tem autenticação bilateral, integração com Okta e Auth0 como provedores de identidade (IdPs). Além disso, o exemplo implementa logout, gerenciamento de grupos e atributos de usuários.
 
-## Referências + Estudos
+
+<p align="center">
+  <img src="src/main/resources/assets/login.png" alt="Tela de Login">
+</p>
+
+## 📚 Referências 
 
 - https://developer.okta.com/blog/2022/08/05/spring-boot-saml
 - https://git.rnp.br/gidlab/sp-spring-security-saml2

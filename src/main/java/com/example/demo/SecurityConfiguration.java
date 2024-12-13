@@ -18,47 +18,52 @@ import org.springframework.security.saml2.provider.service.authentication.Saml2A
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-@Configuration
+
+@Configuration 
 public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain configure(HttpSecurity http) throws Exception {
-
+ 
         http.authorizeHttpRequests(authorize -> authorize
-                .anyRequest().authenticated())
+                .anyRequest().authenticated()) // Todas as requisições devem ser autenticadas
             .saml2Login(saml2 -> saml2
-                .authenticationManager(new ProviderManager(createAuthenticationProvider())))
-            .saml2Logout(withDefaults());
+                .authenticationManager(new ProviderManager(createAuthenticationProvider()))) // Configura o login SAML2 com um AuthenticationManager personalizado
+            .saml2Logout(withDefaults()); // Configura o logout SAML2 com padrões
 
-        return http.build();
+        return http.build(); // Constrói a configuração
     }
 
+    // Cria um provedor de autenticação SAML2  
     private OpenSaml4AuthenticationProvider createAuthenticationProvider() {
         OpenSaml4AuthenticationProvider authenticationProvider = new OpenSaml4AuthenticationProvider();
         authenticationProvider.setResponseAuthenticationConverter(groupsConverter());
         return authenticationProvider;
     }
 
+    // Define um conversor para atribuir grupos de usuários como autoridades
     private Converter<OpenSaml4AuthenticationProvider.ResponseToken, Saml2Authentication> groupsConverter() {
         Converter<ResponseToken, Saml2Authentication> delegate =
-            OpenSaml4AuthenticationProvider.createDefaultResponseAuthenticationConverter();
+            OpenSaml4AuthenticationProvider.createDefaultResponseAuthenticationConverter(); // Conversor padrão
 
+        // Adiciona grupos como autoridades
         return (responseToken) -> {
-            Saml2Authentication authentication = delegate.convert(responseToken);
+            Saml2Authentication authentication = delegate.convert(responseToken); // Converte o token de resposta SAML2
             Saml2AuthenticatedPrincipal principal = (Saml2AuthenticatedPrincipal) authentication.getPrincipal();
-            List<String> groups = principal.getAttribute("groups");
+            List<String> groups = principal.getAttribute("groups"); // Obtém grupos do atributo "groups"
             Set<GrantedAuthority> authorities = new HashSet<>();
 
-            // Fallback para atributo alternativo se `groups` for nulo
+            // Fallback (é acionada quando a abordagem principal falha) para um namespace alternativo de atributo de grupos
             if (groups == null) {
                 groups = principal.getAttribute("http://schemas.auth0.com/roles");
             }
 
-            // Adiciona cada grupo como uma autoridade
+            // Adiciona cada grupo como uma autoridade com o prefixo "ROLE_"
             if (groups != null) {
                 groups.forEach(group -> authorities.add(new SimpleGrantedAuthority("ROLE_" + group)));
             }
 
+            // Retorna a autenticação SAML2 com as autoridades adicionadas
             return new Saml2Authentication(principal, authentication.getSaml2Response(), authorities);
         };
     }
